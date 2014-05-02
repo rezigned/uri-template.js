@@ -1,0 +1,30 @@
+{
+  "name": "uri-template.js",
+  "version": "0.1.0",
+  "description": "Node/Javascript URI Template (RFC 6570) supports both expansion & extraction",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers=coffee:coffee-script/register --reporter=spec",
+    "watch": "gulp --require=coffee-script/register"
+  },
+  "repository": "git://github.com/r",
+  "keywords": [
+    "library",
+    "uri-template",
+    "rfc6570",
+    "extraction",
+    "expansion"
+  ],
+  "author": "Marut K",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "coffee-script": "^1.7.1",
+    "gulp": "^3.6.2",
+    "gulp-coffee": "^1.4.2",
+    "gulp-mocha": "^0.4.1",
+    "gulp-util": "^2.2.14",
+    "lodash": "^2.4.1",
+    "mocha": "~1.18.2"
+  }
+}
