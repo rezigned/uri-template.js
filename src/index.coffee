@@ -13,8 +13,16 @@ module.exports =
 
       .join ''
 
-  extract: ->
-    console.log 'test, I am impress'
+  extract: (template, uri)->
+
+    _(parser.parse template)
+      .reduce (data, node)->
+        match = node.match parser, uri, data
+        uri   = match[0]
+        console.log uri, match, data
+        data
+
+      , {}
 
   UriTemplate: ->
     console.log 'hello world'

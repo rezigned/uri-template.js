@@ -1,7 +1,7 @@
 _ = require 'lodash'
 
-types = 
-  '':
+TYPES = 
+  null:
     'sep'   : ','
     'named' : false
     'empty' : ''
@@ -131,6 +131,48 @@ class Abstract
     return if _.isEmpty val
     @encode parser, variable, val
 
+  extract: (parser, variable, data)->
+
+    vals = data.split @sep
+    switch variable.options['modifier']
+      when '*'
+        _(vals).reduce (data, val)->
+
+          console.log variable.name, val, data
+          if val.indexOf('=') > -1
+            data = {} if not data?
+            [k, v] = val.split '='
+            data[k] = parser.toNumber v
+          else
+            data = [] if not data?
+            data.push parser.toNumber val
+
+          data
+        , null
+
+      when ':'
+        parser.toNumber data
+      else
+        parser.toNumber if data.indexOf(@sep) > -1 then vals else data
+
+  toRegex: (parser, variable)->
+
+    regex   = null
+    value   = parser.REGEX.value
+    options = variable.options
+
+    if options['modifier']
+      switch options['modifier']
+        when '*'
+          regex = "#{value}+(?:#{@sep}#{value}+)*";          
+        when ':'
+          regex = "#{value}{0,"+ options['value'] + '}'
+
+    else
+      regex = "#{value}*(?:,#{value}+)*"
+
+    regex
+
   encode: (parser, variable, values)->
 
     isObject = values.constructor is Object
@@ -171,6 +213,7 @@ class Abstract
       .replace /%(5B|5D)/g, unescape
 
 
+class UnNamed extends Abstract
 class Named extends Abstract
   expandString: (parser, variable, val)->
     val    = val.toString()
@@ -206,21 +249,63 @@ class Named extends Abstract
     , []
     .join @sep
 
-class UnNamed extends Abstract
+  toRegex: (parser, variable)->
+    regex   = null
+    name    = variable.name
+    value   = parser.REGEX.value
+    options = variable.options
+
+    if options['modifier']
+      switch options['modifier']
+        when '*'
+          # name=value|value=value
+          regex = "#{name}+=(?:#{value}+(?:#{@sep}#{name}+=#{value}*)*)"
+          regex += "|#{value}+=(?:#{value}+(?:#{@sep}#{value}+=#{value}*)*)"
+        when ':'
+          regex = "#{value}{0,"+ options['value'] + '}'
+
+    else
+      regex = "#{name}=(?:#{value}+(?:,#{value}+)*)*"
+
+    regex
+
+  extract: (parser, variable, data)->
+    vals = data.split @sep
+    switch variable.options['modifier']
+      when '*'
+        _(vals).reduce (data, val)->
+          [k, v] = val.split '='
+          v = parser.toNumber v
+
+          if k is variable.token
+            data = [] if not data?
+            data.push v
+          else
+            data = {} if not data?
+            data[k] = v
+
+          data
+        , null
+
+      when ':'
+        parser.toNumber vals
+      else
+        # remove key from value e.g. 'lang=en,th' becomes 'en,th'
+        data = data
+                .replace variable.token + '=', ''
+                .split ','
+
+        data = data.pop() if data.length is 1
+        parser.toNumber data
 
 module.exports =
-  types: types
-  validOperators: Object.keys types
+  TYPES: TYPES
   createById: (id)->
 
-    # normalize null id to ''
-    if id is null
-      id = ''
-
-    if id not in @validOperators
+    if id not of TYPES
       throw new Error "Invalid operator #{id}"
     
-    op  = types[id]
+    op  = TYPES[id]
     cls = if op['named'] then Named else UnNamed
 
     new cls(id, op['named'], op['sep'], op['empty'], op['reserved'], op['start'], op['first'])

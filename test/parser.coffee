@@ -8,20 +8,20 @@ describe 'Parser', ->
     actual = parser.parse 'http://www.example.com/{term:1}/{term}/{test*}/foo{?query,number}'
     expect = [
         new nodes.Literal 'http://www.example.com/'
-        new nodes.Expression 'term:1', ops.createById(''), [
+        new nodes.Expression 'term:1', ops.createById(null), [
             new nodes.Variable 'term:1', 'term',
               modifier: ':'
               value: 1
         ]
         new nodes.Literal '/'
-        new nodes.Expression 'term', ops.createById(''), [
+        new nodes.Expression 'term', ops.createById(null), [
           new nodes.Variable 'term', 'term',
             modifier: null
             value: null
         ]
         new nodes.Literal '/'
-        new nodes.Expression 'test*', ops.createById(''), [
-          new nodes.Variable 'test*', 'test',
+        new nodes.Expression 'test*', ops.createById(null), [
+          new nodes.Variable 'test', 'test',
             modifier: '*'
             value: null
         ]

@@ -6,19 +6,17 @@ createNode = (part)->
 
   # literal string
   if part[0] isnt '{'
-    node = new nodes.Literal part
+    new nodes.Literal part
 
   # expression (remove '{' and '}')
   else
-    node = parseExpression part.substr(1, part.length - 2)
-
-  node
+    parseExpression part.substr(1, part.length - 2)
 
 parseExpression = (expression)->
   token  = expression
   prefix = expression[0]
   
-  if prefix not in ops.validOperators
+  if prefix not of ops.TYPES
     prefix = null
 
   # remove operator prefix if exists
@@ -52,7 +50,7 @@ parseVariable = (v)->
       throw new Error "Multiple modifiers per variable are not allowed #{v}"
 
     modifier = '*'
-    name     = v.substr 0, v.length-1 # remove '*'
+    name     = v = v.substr 0, v.length-1 # remove '*'
 
   new nodes.Variable v, name,
     modifier: modifier
@@ -60,17 +58,30 @@ parseVariable = (v)->
   
 # Public APIs
 module.exports =
+  REGEX:
+    value: '(?:[\\w\\.\\-]|%[\\da-fA-F]{2})'
+
   parse: (template)->
-    parts = template
 
-              # split template by '{}' expression 
-              .split(/(\{[^\}]+\})/)
+    # split template by '{}' expression 
+    _(template.split /(\{[^\}]+\})/)
 
-              # remove empty string
-              .filter (part)->
-                part.length
+      # remove empty string
+      .filter (part)->
+        part.length
 
-    parts.reduce (acc, el)->
-      acc.push createNode el
-      acc
-    , []
+      .reduce (acc, el)->
+        acc if acc.push createNode el
+      , []
+
+  escapeRegex: (str)->
+
+    # A modified version from https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+    str.replace /[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&'
+
+  # Only convert given value to numeric data if it's not a isNaN
+  toNumber: (v)->
+    if v instanceof Array 
+      _.map v, (v)-> if isNaN v then v else Number v
+    else
+      if isNaN v then v else Number v
