@@ -1,5 +1,5 @@
 {
-  "name": "rezigned-uri-template",
+  "name": "uri-template.js",
   "repo": "rezigned/uri-template.js",
   "version": "0.1.0",
   "description": "Node.js/Javascript RFC 6570 URI Template implementation that supports both expansion and extraction",

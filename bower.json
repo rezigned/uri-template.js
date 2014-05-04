@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "main": "dist/uri-template.js",
   "ignore": [
-    ".*",
-    "gulpfile.coffee",
-    "component.json",
-    "bower.json",
     "test",
     "src",
+    ".*",
+    "bower.json",
+    "component.json",
+    "gulpfile.coffee",
     "index.js"   
   ]
 }

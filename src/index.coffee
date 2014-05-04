@@ -1,6 +1,7 @@
 _      = require 'lodash'
 parser = require './parser'
 
+# Expands URI template
 expand = (uri, params)->
 
   params ||= {}
@@ -12,6 +13,7 @@ expand = (uri, params)->
 
     .join ''
 
+# Extract variables from URI template
 extract = (template, uri)->
 
   _(parser.parse template)
