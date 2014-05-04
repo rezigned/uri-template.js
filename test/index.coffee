@@ -86,5 +86,4 @@ describe 'URITemplate', ->
 
     for k, v of tests
       actual = URI.extract v.uri, v.expanded
-      console.log v.params, "\nactual", actual
       assert.deepEqual actual, v.params, v.uri 

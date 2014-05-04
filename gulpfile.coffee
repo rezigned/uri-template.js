@@ -1,20 +1,12 @@
-gulp = require 'gulp'
-mocha = require 'gulp-mocha'
+# core
 {exec} = require 'child_process'
 
-gutil = require 'gulp-util'
-
+# gulp
+gulp   = require 'gulp'
+mocha  = require 'gulp-mocha'
+gutil  = require 'gulp-util'
+concat = require 'gulp-concat'
 coffee = require 'gulp-coffee'
-# concat = require 'gulp-concat'
-# uglify = require 'gulp-uglify'
-# sass = require 'gulp-sass'
-# refresh = require 'gulp-livereload'
-
-# connect = require 'connect'
-# http = require 'http'
-# path = require 'path'
-# lr = require 'tiny-lr'
-# server = do lr
 
 path =
   scripts: ['src/**/*.coffee']
@@ -48,7 +40,7 @@ gulp.task 'scripts', ->
         # gulp will stop when it error has occurred
         .on('error', gutil.log)
         #.pipe(do uglify)
-        .pipe(gulp.dest 'lib')
+        .pipe(gulp.dest 'dist/src')
         # .pipe(refresh server)
 
 # Compiles Sass files into css file
@@ -71,6 +63,13 @@ gulp.task 'test', ->
   exec 'npm test', (error, stdin, stdout)->
     console.log stdin, error
   
+gulp.task 'build', ->
+  # build nodejs file
+  
+
+  exec './node_modules/.bin/browserify dist/src/index.js -s UriTemplate -o ./dist/uri-template.js', (error, stdin, stdout)->
+    console.log stdin, error
+
 # The default task
 gulp.task '_default', ->
     # gulp.run 'webserver', 'livereload', 'scripts', 'styles'

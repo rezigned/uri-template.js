@@ -1,28 +1,49 @@
 _      = require 'lodash'
 parser = require './parser'
 
-module.exports =
+expand = (uri, params)->
 
+  params ||= {}
+  _(parser.parse uri)
+    .reduce (data, node)->
+      data if data.push node.expand parser, params
+
+    , []
+
+    .join ''
+
+extract = (template, uri)->
+
+  _(parser.parse template)
+    .reduce (data, node)->
+      [uri] = node.match parser, uri, data
+
+      data
+
+    , {}
+
+class UriTemplate
+  constructor: (@base, @params)->
   expand: (uri, params)->
 
-    _(parser.parse uri)
-      .reduce (data, node)->
-        data if data.push node.expand parser, params
+    # user specifies params as 1st argument
+    if arguments.length < 2
+      params = uri || {}
+      uri    = @base
 
-      , []
+    # user speicifies both uri, params
+    # concat base uri with new uri and
+    # merge default params
+    else
+      uri = @base + uri
 
-      .join ''
+    params = _.extend @params, params
 
-  extract: (template, uri)->
+    expand uri, params
 
-    _(parser.parse template)
-      .reduce (data, node)->
-        match = node.match parser, uri, data
-        uri   = match[0]
-        console.log uri, match, data
-        data
+  extract: extract
 
-      , {}
+UriTemplate.expand  = expand
+UriTemplate.extract = extract
 
-  UriTemplate: ->
-    console.log 'hello world'
+module.exports = UriTemplate

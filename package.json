@@ -1,13 +1,13 @@
 {
-  "name": "uri-template.js",
+  "name": "rezigned-uri-template",
   "version": "0.1.0",
-  "description": "Node/Javascript URI Template (RFC 6570) supports both expansion & extraction",
+  "description": "Node/Javascript URI Template (RFC 6570) that supports both expansion & extraction",
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers=coffee:coffee-script/register --reporter=spec",
     "watch": "gulp --require=coffee-script/register"
   },
-  "repository": "git://github.com/r",
+  "repository": "git://github.com/rezigned/uri-template.js",
   "keywords": [
     "library",
     "uri-template",
@@ -17,14 +17,18 @@
   ],
   "author": "Marut K",
   "license": "MIT",
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
   "devDependencies": {
+    "browserify": "^3.46.0",
     "chai": "~1.9.1",
     "coffee-script": "^1.7.1",
     "gulp": "^3.6.2",
     "gulp-coffee": "^1.4.2",
+    "gulp-concat": "^2.2.0",
     "gulp-mocha": "^0.4.1",
     "gulp-util": "^2.2.14",
-    "lodash": "^2.4.1",
     "mocha": "~1.18.2"
   }
 }

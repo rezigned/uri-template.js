@@ -1,0 +1,14 @@
+{
+  "name": "uri-template.js",
+  "version": "0.1.0",
+  "main": "dist/uri-template.js",
+  "ignore": [
+    ".*",
+    "gulpfile.coffee",
+    "component.json",
+    "bower.json",
+    "test",
+    "src",
+    "index.js"   
+  ]
+}

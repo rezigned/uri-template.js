@@ -138,7 +138,6 @@ class Abstract
       when '*'
         _(vals).reduce (data, val)->
 
-          console.log variable.name, val, data
           if val.indexOf('=') > -1
             data = {} if not data?
             [k, v] = val.split '='
