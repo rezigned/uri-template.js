@@ -1,1 +1,1 @@
-module.exports = require('./dist/uri-template.js');
+module.exports = require('./dist/src/index.js');
