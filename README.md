@@ -3,7 +3,6 @@
 Node.js/Javascript [RFC 6570 URI Template](http://tools.ietf.org/html/rfc6570) implementation that supports both URI expansion and extraction.
 
 ## Usage
-
 ### Expansion
 
 A very simple usage
