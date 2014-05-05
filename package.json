@@ -1,6 +1,6 @@
 {
   "name": "uri-template.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node/Javascript URI Template (RFC 6570) that supports both expansion & extraction",
   "main": "index.js",
   "scripts": {
