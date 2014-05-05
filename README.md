@@ -1,5 +1,7 @@
 # uri-template.js
 
+[![Build Status](https://travis-ci.org/rezigned/uri-template.js.svg?branch=0.1.1)](https://travis-ci.org/rezigned/uri-template.js)
+
 Node.js/Javascript [RFC 6570 URI Template](http://tools.ietf.org/html/rfc6570) implementation that supports both URI expansion and extraction.
 
 ## Usage
