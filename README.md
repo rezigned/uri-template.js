@@ -1,8 +1,10 @@
 # uri-template.js
 
+Node.js/Javascript [RFC 6570 URI Template](http://tools.ietf.org/html/rfc6570) implementation that supports both URI expansion and extraction.
+
 [![Build Status](https://travis-ci.org/rezigned/uri-template.js.svg?branch=master)](https://travis-ci.org/rezigned/uri-template.js)
 
-Node.js/Javascript [RFC 6570 URI Template](http://tools.ietf.org/html/rfc6570) implementation that supports both URI expansion and extraction.
+* [PHP](https://github.com/rize/UriTemplate) URI Template
 
 ## Usage
 ### Expansion
@@ -43,6 +45,16 @@ UriTemplate.extract('/search/{term:1}/{term}/{?q*,limit}', '/search/j/john/?q=a&
     ]
     limit: 10
 )
+```
+### UriTemplate class
+
+You can also instantiate `UriTemplate` instance via `new` keyword. Its constructor accepts 2 optional params `base uri` and `default params`. Which is very useful when working with API endpoint.
+
+```js
+var uri = new UriTemplate('https://api.twitter.com/{version}', {'version': 1.1});
+uri.expand('/statuses/show/{id}.json', {'id': '210462857140252672'});
+
+>> https://api.twitter.com/1.1/statuses/show/210462857140252672.json
 ```
 
 ## Installation
