@@ -85,3 +85,15 @@ module.exports =
       _.map v, (v)-> if isNaN v then v else Number v
     else
       if isNaN v then v else Number v
+
+  # Sort expression variables by non-explode to explode.
+  # We only do this when we're going to extract variables from uri
+  sortVariables: (vars)->
+    vars.sort (a, b)->
+      m1 = a.options.modifier
+      m1 ?= -1
+
+      m2 = b.options.modifier
+      m2 ?= -1
+
+      if m1 >= m2 then -1 else 1

@@ -72,6 +72,16 @@ describe 'URITemplate', ->
         count: ['one', 'two', 'three']
      ,
 
+      uri: '/search/{term:1}/{term}/{?q*,limit}'
+      expanded: '/search/j/john/?a=1&b=2&limit=10'
+      params:
+        'term:1': 'j'
+        term: 'john'
+        q:
+          a: 1
+          b: 2
+        limit: 10
+     ,
       uri: 'http://example.com/{term:1}/{term}/search{?q*,lang,test*}'
       expanded: 'http://example.com/j/john/search?q=mycelium&q=3&lang=th,jp,en&a=1&b=2'
       params:

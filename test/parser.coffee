@@ -38,3 +38,23 @@ describe 'Parser', ->
 
     for k, v of expect
       assert.deepEqual v, actual[k]
+
+  it 'should sort variables by non-explode to explode order', ->
+
+    ast = parser.parse '/search/{term:1}/{term}/{?q*,limit,extra*}'
+
+    # we're only interested in the last expression i.e. {?q*,limit,extra*}
+    actual = parser.sortVariables ast[ast.length - 1].vars
+    expect = [
+      new nodes.Variable 'limit', 'limit',
+        modifier: null
+        value: null
+      new nodes.Variable 'q', 'q',
+        modifier: '*'
+        value: null
+      new nodes.Variable 'extra', 'extra',
+        modifier: '*'
+        value: null
+    ]
+
+    assert.deepEqual expect, actual

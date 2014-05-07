@@ -59,7 +59,10 @@ class Expression extends Abstract
 
     # remove operator from input
     input = input.substr 1 if op.id
-    input = _(@vars).reduce (uri, variable)->
+
+    # we must sort variable by non-explode to explode order
+    # otherwise explode regex will match too much
+    input = _(parser.sortVariables @vars).reduce (uri, variable)->
 
       regex = new RegExp(op.toRegex parser, variable)
       val   = null
