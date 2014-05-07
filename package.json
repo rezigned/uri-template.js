@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers=coffee:coffee-script/register --reporter=spec",
-    "watch": "gulp --require=coffee-script/register"
+    "watch": "gulp --require=coffee-script/register",
+    "build": "gulp --require=coffee-script/register scripts build"
   },
   "repository": "git://github.com/rezigned/uri-template.js",
   "keywords": [

@@ -138,7 +138,7 @@ Expression = (function(_super) {
     if (op.id) {
       input = input.substr(1);
     }
-    input = _(this.vars).reduce(function(uri, variable) {
+    input = _(parser.sortVariables(this.vars)).reduce(function(uri, variable) {
       var m, regex, val;
       regex = new RegExp(op.toRegex(parser, variable));
       val = null;
@@ -662,6 +662,24 @@ module.exports = {
         return Number(v);
       }
     }
+  },
+  sortVariables: function(vars) {
+    return vars.sort(function(a, b) {
+      var m1, m2;
+      m1 = a.options.modifier;
+      if (m1 == null) {
+        m1 = -1;
+      }
+      m2 = b.options.modifier;
+      if (m2 == null) {
+        m2 = -1;
+      }
+      if (m1 >= m2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
   }
 };
 

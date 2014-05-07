@@ -85,7 +85,7 @@ Expression = (function(_super) {
     if (op.id) {
       input = input.substr(1);
     }
-    input = _(this.vars).reduce(function(uri, variable) {
+    input = _(parser.sortVariables(this.vars)).reduce(function(uri, variable) {
       var m, regex, val;
       regex = new RegExp(op.toRegex(parser, variable));
       val = null;
